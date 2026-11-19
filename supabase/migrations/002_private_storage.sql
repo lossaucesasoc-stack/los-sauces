@@ -29,7 +29,7 @@ with check (
   and (storage.foldername(name))[1] = auth.uid()::text
 );
 
-create policy "Visitante revisa sus archivos reci�n cargados"
+create policy "Visitante revisa sus archivos recién cargados"
 on storage.objects for select to authenticated
 using (
   bucket_id = 'expedientes'
@@ -81,7 +81,7 @@ begin
     auth.uid()
   ) returning personas.id, numero_registro into v_id, v_numero;
 
-  insert into public.historial(persona_id, accion) values (v_id, 'Registro p�blico creado');
+  insert into public.historial(persona_id, accion) values (v_id, 'Registro público creado');
   return query select v_id, 'LS-' || lpad(v_numero::text, 6, '0');
 exception when unique_violation then
   raise exception 'CARNET_YA_REGISTRADO';
@@ -127,5 +127,4 @@ $$;
 grant execute on function public.registrar_documento(uuid,text,text,text,text,text) to authenticated;
 grant execute on function public.registrar_persona(text,text,date,text,text,text,text,text,text,smallint,date) to authenticated;
 revoke execute on function public.registrar_persona(text,text,date,text,text,text,text,text,text,smallint,date) from anon;
-
 

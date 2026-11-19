@@ -1,12 +1,12 @@
-// Solicita acceso a la c�mara �nicamente al pulsar �Tomar foto�.
+// Solicita acceso a la cámara únicamente al pulsar «Tomar foto».
 export function createCamera(onCapture) {
   const dialog = document.createElement('dialog');
   dialog.className = 'camera-dialog';
   dialog.setAttribute('aria-labelledby', 'camera-title');
   dialog.innerHTML = `<div class="dialog-head"><h2 id="camera-title">Tomar foto</h2><button class="button secondary" type="button" id="camera-close">Cerrar</button></div>
-    <p id="camera-help">Coloca la persona o el documento dentro de la imagen y pulsa �Tomar foto�.</p>
+    <p id="camera-help">Coloca la persona o el documento dentro de la imagen y pulsa «Tomar foto».</p>
     <p id="camera-status" role="status" aria-live="polite"></p>
-    <video id="camera-video" autoplay playsinline muted aria-label="Vista de la c�mara"></video>
+    <video id="camera-video" autoplay playsinline muted aria-label="Vista de la cámara"></video>
     <img id="camera-preview" alt="Foto tomada para revisar" hidden>
     <div class="camera-actions"><button class="button primary" type="button" id="camera-shoot" disabled>Tomar foto</button><button class="button primary" type="button" id="camera-use" hidden>Usar esta foto</button><button class="button secondary" type="button" id="camera-retake" hidden>Volver a tomar</button><button class="button secondary" type="button" id="camera-device">Elegir foto del dispositivo</button></div>`;
   document.body.append(dialog);
@@ -53,9 +53,9 @@ export function createCamera(onCapture) {
     releaseStream(); clearSnapshot();
     video.hidden = false; image.hidden = true; use.hidden = true; retake.hidden = true;
     shoot.hidden = false; shoot.disabled = true;
-    status.textContent = 'Permite el acceso a la c�mara si tu navegador lo solicita.';
+    status.textContent = 'Permite el acceso a la cámara si tu navegador lo solicita.';
     if (!navigator.mediaDevices?.getUserMedia) {
-      status.textContent = 'Este navegador no permite abrir la c�mara aqu�. Puedes elegir una foto del dispositivo.';
+      status.textContent = 'Este navegador no permite abrir la cámara aquí. Puedes elegir una foto del dispositivo.';
       video.hidden = true; return;
     }
     try {
@@ -64,11 +64,11 @@ export function createCamera(onCapture) {
       stream = result; video.srcObject = stream;
       await video.play();
       if (token !== generation || !dialog.open) return;
-      shoot.disabled = false; status.textContent = 'C�mara lista. Revisa el encuadre antes de tomar la foto.';
+      shoot.disabled = false; status.textContent = 'Cámara lista. Revisa el encuadre antes de tomar la foto.';
     } catch (error) {
       if (token !== generation || !dialog.open) return;
       releaseStream(); video.hidden = true;
-      status.textContent = error.name === 'NotAllowedError' ? 'No se dio permiso para usar la c�mara. Puedes elegir una foto del dispositivo o habilitar el permiso en tu navegador.' : 'No pudimos abrir la c�mara. Comprueba que est� disponible o elige una foto del dispositivo.';
+      status.textContent = error.name === 'NotAllowedError' ? 'No se dio permiso para usar la cámara. Puedes elegir una foto del dispositivo o habilitar el permiso en tu navegador.' : 'No pudimos abrir la cámara. Comprueba que esté disponible o elige una foto del dispositivo.';
     }
   }
   shoot.onclick = async () => {
@@ -110,12 +110,11 @@ export function createCamera(onCapture) {
   return {
     open(type, title) {
       target = type;
-      // En tel�fono se abre la c�mara nativa, sin permisos de micr�fono.
+      // En teléfono se abre la cámara nativa, sin permisos de micrófono.
       if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { deviceCapture(type); return; }
-      dialog.querySelector('#camera-title').textContent = 'Tomar foto � ' + title;
+      dialog.querySelector('#camera-title').textContent = 'Tomar foto · ' + title;
       dialog.showModal(); start();
     },
     close() { if (dialog.open) dialog.close(); stop(); }
   };
 }
-

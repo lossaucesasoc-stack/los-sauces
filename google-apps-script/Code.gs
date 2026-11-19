@@ -116,4 +116,3 @@ function safe_(value) {
     .replace(/[^a-zA-Z0-9._-]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 160);
 }
 
-

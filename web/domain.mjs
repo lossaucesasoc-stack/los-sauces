@@ -1,13 +1,13 @@
 export const DOCUMENTS = Object.freeze([
-  { id: 'foto', label: 'Fotograf�a personal', prefix: 'Foto' },
+  { id: 'foto', label: 'Fotografía personal', prefix: 'Foto' },
   { id: 'carnet', label: 'Carnet de identidad', prefix: 'Carnet' },
   { id: 'certificado', label: 'Certificado de nacimiento', prefix: 'Certificado_de_Nacimiento' },
   { id: 'discapacidad', label: 'Carnet de discapacidad', prefix: 'Carnet_de_Discapacidad' }
 ]);
-// Cat�logo provisional: confirmar los nombres y requisitos con la instituci�n.
-export const DISABILITIES = ['F�sica o motora', 'Visual', 'Auditiva', 'Intelectual', 'Mental o ps�quica', 'M�ltiple', 'Otra / pendiente de confirmar'];
+// Catálogo provisional: confirmar los nombres y requisitos con la institución.
+export const DISABILITIES = ['Física o motora', 'Visual', 'Auditiva', 'Intelectual', 'Mental o psíquica', 'Múltiple', 'Otra / pendiente de confirmar'];
 export const GRADES = ['Leve', 'Moderada', 'Grave', 'Muy grave', 'Pendiente de confirmar'];
-export const STATES = ['Pendiente de revisi�n', 'Observado', 'Completo'];
+export const STATES = ['Pendiente de revisión', 'Observado', 'Completo'];
 
 export function normalizeIdentity(value) {
   return String(value ?? '').normalize('NFKC').trim().toUpperCase().replace(/[\s.-]/g, '');
@@ -21,7 +21,7 @@ export function safePart(value) {
 }
 export function filenameFor(type, name, original, side = '', revision = '') {
   const doc = DOCUMENTS.find(item => item.id === type);
-  if (!doc) throw new Error('Tipo de documento inv�lido');
+  if (!doc) throw new Error('Tipo de documento inválido');
   const extension = String(original).split('.').pop().toLowerCase();
   if (!['jpg', 'jpeg', 'png', 'pdf'].includes(extension)) throw new Error('Formato no admitido');
   const part = safePart(name);
@@ -36,11 +36,10 @@ export function validateFile(file, photo = false) {
   const ext = String(file.name).split('.').pop().toLowerCase();
   const expected = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', pdf: 'application/pdf' };
   if (!extensions.includes(ext) || file.type !== expected[ext]) return 'Selecciona un archivo JPG, PNG' + (photo ? '.' : ' o PDF.');
-  if (file.size > 5 * 1024 * 1024) return 'El archivo debe pesar como m�ximo 5 MB.';
-  if (file.size === 0) return 'El archivo est� vac�o.';
+  if (file.size > 5 * 1024 * 1024) return 'El archivo debe pesar como máximo 5 MB.';
+  if (file.size === 0) return 'El archivo está vacío.';
   return '';
 }
 export function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
-

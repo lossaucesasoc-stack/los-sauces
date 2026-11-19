@@ -119,4 +119,3 @@ export async function updatePerson(session, record) {
     body: JSON.stringify({ persona_id: record.id, usuario_id: session.user.id, accion: `Revisi\u00f3n administrativa: ${record.status}` })
   });
 }
-

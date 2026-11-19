@@ -1,9 +1,9 @@
--- Los Sauces: estructura inicial y acceso p�blico controlado.
+-- Los Sauces: estructura inicial y acceso público controlado.
 -- Ejecutar una sola vez en Supabase SQL Editor.
 
 create extension if not exists pgcrypto;
 
-create type public.estado_expediente as enum ('Pendiente de revisi�n', 'Observado', 'Completo', 'Archivado');
+create type public.estado_expediente as enum ('Pendiente de revisión', 'Observado', 'Completo', 'Archivado');
 
 create table public.personas (
   id uuid primary key default gen_random_uuid(),
@@ -19,7 +19,7 @@ create table public.personas (
   numero_carnet_discapacidad text check (numero_carnet_discapacidad is null or numero_carnet_discapacidad ~ '^[0-9]{1,30}$'),
   porcentaje smallint check (porcentaje between 0 and 100),
   fecha_afiliacion date,
-  estado public.estado_expediente not null default 'Pendiente de revisi�n',
+  estado public.estado_expediente not null default 'Pendiente de revisión',
   observaciones_publicas text not null default '',
   activo boolean not null default true,
   creado_en timestamptz not null default now(),
@@ -122,7 +122,7 @@ begin
     nullif(p_numero_carnet_discapacidad, ''), p_porcentaje, p_fecha_afiliacion
   ) returning personas.id, numero_registro into v_id, v_numero;
 
-  insert into public.historial(persona_id, accion) values (v_id, 'Registro p�blico creado');
+  insert into public.historial(persona_id, accion) values (v_id, 'Registro público creado');
   return query select v_id, 'LS-' || lpad(v_numero::text, 6, '0');
 exception when unique_violation then
   raise exception 'CARNET_YA_REGISTRADO';
@@ -151,5 +151,4 @@ $$;
 revoke all on public.personas, public.documentos, public.administradores, public.historial from anon;
 grant execute on function public.registrar_persona(text,text,date,text,text,text,text,text,text,smallint,date) to anon;
 grant execute on function public.consultar_ficha(text) to anon;
-
 
