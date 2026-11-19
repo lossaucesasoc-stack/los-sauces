@@ -1,0 +1,8 @@
+.work/
+referencias/
+node_modules/
+*.zip
+.env
+.env.*
+!.env.example
+
